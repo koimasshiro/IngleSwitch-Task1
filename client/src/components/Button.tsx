@@ -1,17 +1,34 @@
 import React from 'react';
-import {View, Text, Pressable, StyleProp, ViewStyle} from 'react-native';
+import {
+  View,
+  Text,
+  Pressable,
+  // StyleProp,
+  // ViewStyle,
+  ActivityIndicator,
+} from 'react-native';
 
 interface CustomButtonProps {
   title: string;
   handlePress: () => void;
-  styles: StyleProp<ViewStyle>;
+  styles: any;
+  isSubmiting: boolean;
 }
 
-const CustomButton = ({title, handlePress, styles}: CustomButtonProps) => {
+const CustomButton = ({
+  title,
+  handlePress,
+  styles,
+  isSubmiting,
+}: CustomButtonProps) => {
   return (
-    <View style={styles}>
-      <Pressable onPress={handlePress}>
-        <Text>{title}</Text>
+    <View>
+      <Pressable style={styles.button} onPress={handlePress}>
+        {isSubmiting ? (
+          <Text style={styles.buttonText}>{title}</Text>
+        ) : (
+          <ActivityIndicator size="small" color="#ffffff" />
+        )}
       </Pressable>
     </View>
   );

@@ -1,23 +1,23 @@
 import React from 'react';
-
+import {ActivityIndicator} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 
 import AuthStack from './src/navigation/AuthStack';
-import AppStack from './src/navigation/AppStack';
-import {Loader} from './src/components/Loader';
+// import AppStack from './src/navigation/AppStack';
 
 function App() {
   // dummy auth data
-  const authdata = 'authData';
+  // const authdata = 'authData';
   const loading = false;
 
   if (loading) {
-    return <Loader />;
+    return <ActivityIndicator />;
   }
 
   return (
     <NavigationContainer>
-      {authdata ? <AppStack /> : <AuthStack />}
+      {/* {authdata ? <AppStack /> : <AuthStack />} */}
+      <AuthStack />
     </NavigationContainer>
   );
 }
