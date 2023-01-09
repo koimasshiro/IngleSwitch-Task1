@@ -1,20 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace server.Models
 {
 	public class User
 	{
+		[Key]
 		public int Id { get; set; }
 
-		[Required(ErrorMessage = "First Name is required.")]
-		[MaxLength(30, ErrorMessage = "Maximum length is 30 characters.")]
+		[Required]
 		public string? FirstName { get; set; }
 
-		[Required(ErrorMessage = "Last Name is required.")]
-		[MaxLength(30, ErrorMessage = "Maximum length is 30 characters.")]
+		[Required]
 		public string? LastName { get; set; }
 
-		[Required(ErrorMessage = "Email is required")]
+		[Required]
 		public string? Email { get; set; }
 
 		public byte[] PasswordHash { get; set; }

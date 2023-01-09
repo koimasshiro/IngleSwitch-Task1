@@ -4,9 +4,10 @@ namespace server.Models
 {
 	public class UserContext : DbContext
 	{
-		public DbSet<User> Users { get; set; }
+		public UserContext(DbContextOptions<UserContext> options) : base(options) 
+		{ 
 
-		protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite(@"Data Source=C:\Sqlite Database Task\ApiTask");
-
+		}
+		public DbSet<User> Users => Set<User>();
 	}
 }

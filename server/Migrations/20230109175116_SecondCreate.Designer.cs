@@ -11,8 +11,8 @@ using server.Models;
 namespace server.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20230108130453_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230109175116_SecondCreate")]
+    partial class SecondCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,12 +32,10 @@ namespace server.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(30)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(30)
                         .HasColumnType("TEXT");
 
                     b.Property<byte[]>("PasswordHash")

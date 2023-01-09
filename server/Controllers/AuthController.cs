@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using server.Dtos;
 using server.Models;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -14,27 +17,38 @@ namespace server.Controllers
 	public class AuthController : ControllerBase
 	{
 		public static User user = new User();
-		private readonly IConfiguration configuration;
 
-		public AuthController(IConfiguration configuration)
+		private readonly IConfiguration configuration;
+		private readonly UserContext _context;
+
+		public AuthController(IConfiguration configuration, UserContext context)
 		{
 			this.configuration = configuration;
+			_context = context;
 		}
 
+
 		[HttpPost("register")]
-		public async Task<ActionResult<User>> Register(SignupRequestDto request)
+		public async Task<ActionResult<List<User>>> Register(SignupRequestDto request)
 		{
+
 			CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-			//set user password hash to password hash
+			//set user password to password hash
+
 			user.FirstName = request.FirstName;
 			user.LastName = request.LastName;
 			user.Email = request.Email;
 			user.PasswordHash = passwordHash;
 			user.PasswordSalt = passwordSalt;
 
-			return Ok(user);
+			_context.Users.Add(user);
+			await _context.SaveChangesAsync();
+
+			return Ok(await _context.Users.ToListAsync());
 		}
+
+		
 
 		[HttpPost("login")]
 		public async Task<ActionResult<string>> Login(LoginRequestDto request)
