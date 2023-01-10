@@ -1,7 +1,15 @@
 import React, {useState} from 'react';
 import * as yup from 'yup';
 import {Formik} from 'formik';
-import {View, Text, StyleSheet, Pressable, Image, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Image,
+  Alert,
+  ScrollView,
+} from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import InputField from '../components/InputField';
 import CustomButton from '../components/Button';
@@ -32,7 +40,7 @@ const validationSchema = yup.object().shape({
     .matches(/\w*[A-Z]\w*/, 'Password must have a capital letter')
     .matches(/\d/, 'Password must have a number')
     .min(8, ({min}) => `Password must be at least ${min} characters`)
-    .label('New PIN'),
+    .label('Password'),
   confirmPassword: yup
     .string()
     .required()
@@ -64,117 +72,117 @@ const Register = ({navigation}: RegisterScreenProps) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>SignUp</Text>
-        <Pressable onPress={() => console.log('clicked')}>
-          <Image
-            style={{width: 100, height: 100}}
-            source={require('./logoutIcon.svg')}
-          />
-        </Pressable>
-      </View>
-      <Formik
-        initialValues={{
-          firstNmae: '',
-          lastNmae: '',
-          email: '',
-          password: '',
-          confirmPassword: '',
-        }}
-        validationSchema={validationSchema}
-        onSubmit={values =>
-          handleRegister({
-            firstName: values.firstNmae,
-            lastName: values.lastNmae,
-            email: values.email,
-            password: values.password,
-          })
-        }>
-        {({handleChange, handleSubmit, values, errors}) => (
-          <View>
-            <View style={styles.inputWrapper}>
-              <View>
-                <InputField
-                  label={'Firstname'}
-                  inputType={''}
-                  keyboardType={undefined}
-                  style={styles.input}
-                  onChangeText={handleChange('firstName')}
-                  value={values.firstNmae}
-                />
-                <ErrorMessage errorValue={errors.firstNmae} />
+    <ScrollView>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>SignUp</Text>
+          <Pressable onPress={() => console.log('clicked')}>
+            <Image
+              style={{width: 40, height: 40}}
+              source={require('./logo.png')}
+            />
+          </Pressable>
+        </View>
+        <Formik
+          initialValues={{
+            firstNmae: '',
+            lastNmae: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+          }}
+          validationSchema={validationSchema}
+          onSubmit={values =>
+            handleRegister({
+              firstName: values.firstNmae,
+              lastName: values.lastNmae,
+              email: values.email,
+              password: values.password,
+            })
+          }>
+          {({handleChange, handleSubmit, errors}) => (
+            <View>
+              <View style={styles.inputWrapper}>
+                <View>
+                  <InputField
+                    placeholder={'Firstname'}
+                    inputType={''}
+                    keyboardType={undefined}
+                    style={styles.input}
+                    onChangeText={handleChange('firstName')}
+                  />
+                  <ErrorMessage errorValue={errors.firstNmae} />
+                </View>
+                <View>
+                  <InputField
+                    placeholder={'Lastname'}
+                    inputType={''}
+                    keyboardType={undefined}
+                    style={styles.input}
+                    onChangeText={handleChange('lastName')}
+                  />
+                  <ErrorMessage errorValue={errors.lastNmae} />
+                </View>
               </View>
-              <View>
-                <InputField
-                  label={'Lastname'}
-                  inputType={''}
-                  keyboardType={undefined}
-                  style={styles.input}
-                  onChangeText={handleChange('lastName')}
-                  value={values.lastNmae}
+              <InputField
+                placeholder={'Email'}
+                keyboardType="email-address"
+                inputType={''}
+                style={styles.input}
+                onChangeText={handleChange('email')}
+              />
+              <ErrorMessage errorValue={errors.email} />
+              <InputField
+                placeholder={'Password'}
+                inputType="password"
+                keyboardType={undefined}
+                style={styles.input}
+                onChangeText={handleChange('password')}
+              />
+              <ErrorMessage errorValue={errors.password} />
+              <InputField
+                placeholder={'Confirm Password'}
+                inputType="password"
+                keyboardType={undefined}
+                style={styles.input}
+                onChangeText={handleChange('confirmPassword')}
+              />
+              <ErrorMessage errorValue={errors.confirmPassword} />
+              <View style={styles.rememberWrapper}>
+                <BouncyCheckbox
+                  size={25}
+                  fillColor="red"
+                  unfillColor="#222A48"
+                  text="I agree with all privacy and policy"
+                  iconStyle={{borderColor: '#FFFFFF'}}
+                  innerIconStyle={{borderWidth: 1, borderRadius: 0}}
+                  textStyle={{
+                    fontFamily: 'Inyika',
+                    color: '#ffffff',
+                  }}
+                  onPress={(isChecked: boolean) => {
+                    console.log(isChecked);
+                  }}
+                  style={styles.remember}
                 />
-                <ErrorMessage errorValue={errors.lastNmae} />
               </View>
+              <CustomButton
+                title={'Register'}
+                styles={styles}
+                handlePress={() => handleSubmit()}
+                isSubmiting={isSubmitting}
+              />
             </View>
-            <InputField
-              label={'Email'}
-              keyboardType="email-address"
-              inputType={''}
-              style={styles.input}
-              onChangeText={handleChange('email')}
-              value={values.email}
-            />
-            <ErrorMessage errorValue={errors.email} />
-            <InputField
-              label={'Password'}
-              inputType="password"
-              keyboardType={undefined}
-              style={styles.input}
-              onChangeText={handleChange('password')}
-              value={values.password}
-            />
-            <ErrorMessage errorValue={errors.password} />
-            <InputField
-              label={'Confirm Password'}
-              inputType="password"
-              keyboardType={undefined}
-              style={styles.input}
-              onChangeText={handleChange('confirmPassword')}
-              value={values.confirmPassword}
-            />
-            <ErrorMessage errorValue={errors.confirmPassword} />
-            <BouncyCheckbox
-              size={25}
-              fillColor="red"
-              unfillColor="#222A48"
-              text="I agree with all privacy and policy"
-              iconStyle={{borderColor: '#FFFFFF'}}
-              innerIconStyle={{borderWidth: 1}}
-              textStyle={{
-                fontFamily: 'Inyika',
-                color: '#ffffff',
-              }}
-              onPress={(isChecked: boolean) => {
-                console.log(isChecked);
-              }}
-            />
-            <CustomButton
-              title={'Register'}
-              styles={styles.button}
-              handlePress={() => handleSubmit}
-              isSubmiting={isSubmitting}
-            />
-          </View>
-        )}
-      </Formik>
-      <View style={styles.policy}>
-        <Text style={styles.policyText}>Already have an account?</Text>
-        <Pressable onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.loginText}>Login</Text>
-        </Pressable>
+          )}
+        </Formik>
+        <View style={styles.policy}>
+          <Text style={styles.policyText}>Already have an account?</Text>
+          <Pressable onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.loginText}>Login</Text>
+          </Pressable>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -185,9 +193,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#222A48',
     color: '#FFFFFF',
     paddingHorizontal: 20,
+    paddingVertical: 20,
   },
   header: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -196,34 +204,39 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: '#FFFFFF',
     fontFamily: 'Inyika',
-  },
-  input: {
-    flex: 1,
-    border: '1px solid #EB3E3E',
-    borderRadius: 21,
-    backgroundColor: 'transparent',
-    color: '#FFFFFF',
-    fontSize: 20,
-    fontWeight: '700',
-    fontFamily: 'Inyika',
-  },
-  inputWrapper: {
-    flex: 1,
-  },
-  policy: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     marginBottom: 30,
   },
+  input: {
+    borderColor: '#EB3E3E',
+    borderWidth: 1,
+    borderRadius: 21,
+    backgroundColor: '#222A48',
+    paddingVertical: 0,
+    fontSize: 15,
+    fontWeight: '700',
+    height: 60,
+    margin: 12,
+    padding: 30,
+  },
+  inputWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  policy: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignSelf: 'center',
+    width: 220,
+    marginTop: 150,
+  },
   policyText: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: '700',
     color: '#FFFFFF',
     fontFamily: 'Inyika',
   },
   loginText: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: '700',
     color: '#EB3E3E',
     fontFamily: 'Inyika',
@@ -231,11 +244,10 @@ const styles = StyleSheet.create({
   button: {
     padding: 10,
     backgroundColor: '#EB3E3E',
-    bordeRadius: 23,
-    color: '#FFFFFF',
-    fontSize: 24,
-    fontWeight: '700',
-    textAlign: 'center',
+    margin: 12,
+    borderRadius: 21,
+    width: 200,
+    alignSelf: 'center',
   },
   buttonText: {
     color: '#FFFFFF',
@@ -243,6 +255,13 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontFamily: 'Inyika',
     textAlign: 'center',
+  },
+  remember: {
+    marginTop: 10,
+    marginBottom: 30,
+  },
+  rememberWrapper: {
+    margin: 12,
   },
 });
 

@@ -25,9 +25,9 @@ const CustomButton = ({
     <View>
       <Pressable style={styles.button} onPress={handlePress}>
         {isSubmiting ? (
-          <Text style={styles.buttonText}>{title}</Text>
-        ) : (
           <ActivityIndicator size="small" color="#ffffff" />
+        ) : (
+          <Text style={styles.buttonText}>{title}</Text>
         )}
       </Pressable>
     </View>
