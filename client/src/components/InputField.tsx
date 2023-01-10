@@ -8,8 +8,7 @@ import {
 } from 'react-native';
 
 interface InputFieldProps {
-  label: string;
-  value: string;
+  placeholder: string;
   inputType: string;
   keyboardType: KeyboardTypeOptions | undefined;
   style: StyleProp<ViewStyle>;
@@ -17,30 +16,30 @@ interface InputFieldProps {
 }
 
 const InputField = ({
-  label,
+  placeholder,
   inputType,
   keyboardType,
   style,
   onChangeText,
-  value,
 }: InputFieldProps) => {
   return (
-    <View style={style}>
+    <View>
       {inputType === 'password' ? (
         <TextInput
-          placeholder={label}
+          placeholder={placeholder}
           keyboardType={keyboardType}
           style={style}
           secureTextEntry={true}
           onChangeText={onChangeText}
-          value={value}
+          placeholderTextColor="white"
         />
       ) : (
         <TextInput
-          placeholder={label}
+          placeholder={placeholder}
           keyboardType={keyboardType}
           style={style}
           onChangeText={onChangeText}
+          placeholderTextColor="white"
         />
       )}
     </View>
